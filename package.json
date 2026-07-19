@@ -1,0 +1,81 @@
+{
+  "name": "copilot-smart-router",
+  "displayName": "Copilot Smart Router",
+  "description": "Automatic model routing for GitHub Copilot Chat – uses the best model for every prompt",
+  "version": "0.1.1",
+  "publisher": "MikheilKakabadze",
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Chat"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "chatParticipants": [
+      {
+        "id": "smart",
+        "name": "smart",
+        "description": "Route prompts to the best Copilot model automatically",
+        "isSticky": true
+      }
+    ],
+    "configuration": {
+      "title": "Copilot Smart Router",
+      "properties": {
+        "aiRouter.fastModel": {
+          "type": "string",
+          "default": "GPT-5 mini",
+          "description": "Model ID or family name for fast/simple requests (tier 1)"
+        },
+        "aiRouter.balancedModel": {
+          "type": "string",
+          "default": "Raptor mini",
+          "description": "Model ID or family name for normal tasks (tier 2)"
+        },
+        "aiRouter.powerfulModel": {
+          "type": "string",
+          "default": "GPT-5.5",
+          "description": "Model ID or family name for complex tasks (tier 3)"
+        },
+        "aiRouter.complexityThreshold": {
+          "type": "number",
+          "default": 0.6,
+          "description": "Minimum complexity score (0-1) to upgrade to a more powerful model"
+        },
+        "aiRouter.tokenLimitBeforeSummarization": {
+          "type": "number",
+          "default": 80000,
+          "description": "Estimated token count after which conversation history will be summarised"
+        },
+        "aiRouter.enableAutoSummarization": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically summarise long conversations to save context tokens"
+        },
+        "aiRouter.workspaceContextMode": {
+          "type": "string",
+          "default": "smart",
+          "enum": [
+            "never",
+            "always",
+            "smart"
+          ],
+          "description": "When to attach workspace files to the request"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.4.0"
+  }
+}
